@@ -20,7 +20,7 @@ var opacity;
 var highest2 = 0;
 var countdown = 60;
 var dead;
-
+ 
 
 
 
