@@ -76,23 +76,50 @@
 //FFT fft;
 //FFT fft2;
 var player;
-
+var backdrop;
+var backdropx = 0;
 function preload() {
+     player = new Player();
+     enemy = new Enemy();
+     loadImages();
     
 }
 
 function setup() {
-    
-    createCanvas(768, 432);
-    player = new Player();
-    
-    player.shipImage = loadImage("images/alien1.png");
+    //768
+    createCanvas(1280, 432);
+   
 }
 
 function draw() {
-    
-   player.update();
+
+    cycleBG();
+    player.update();
     player.shipControl();
+    
+    enemy.fly();
+    
+    //enemy.eat();
+}
+function loadImages() {
+    
+    backdrop = loadImage("images/background1.png")
+    player.shipImage = loadImage("images/alien1.png");
+    enemy.enemyImage = createSprite(enemy.enemyXPosition, enemy.enemyYPosition);
+    enemy.flyAnimation = enemy.enemyImage.addAnimation('flyAnimation', "images/fly/Fly1.png","images/fly/Fly5.png");
+    enemy.flyAnimation.frameDelay = 7;
+    enemy.eatAnimation = enemy.enemyImage.addAnimation('eatAnimation',"images/eat/eat1.png", "images/eat/eat3.png");
+}
+function cycleBG(){
+    
+    image(backdrop, backdropx, 0);
+      image(backdrop, backdropx + backdrop.width, 0);
+      
+      if (backdropx <= -(backdrop.width)) {
+        backdropx = 0;
+      }
+      backdropx = backdropx - 5;
+   
     
 }
 
