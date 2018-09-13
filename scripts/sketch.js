@@ -76,11 +76,15 @@
 //FFT fft;
 //FFT fft2;
 var player;
+var enemy;
 var backdrop;
 var backdropx = 0;
+var obstacle;
 function preload() {
+     
      player = new Player();
      enemy = new Enemy();
+     obstacle = new Obstacle();
      loadImages();
     
 }
@@ -88,6 +92,7 @@ function preload() {
 function setup() {
     //768
     createCanvas(1280, 432);
+    //canvas.position(0,0);
    
 }
 
@@ -96,9 +101,11 @@ function draw() {
     cycleBG();
     player.update();
     player.shipControl();
-    
     enemy.fly();
-    
+   obstacle.travel();
+   image(obstacle.obstacleImage, obstacle.obstacleXPosition, obstacle.obstacleYPosition);
+   obstacle.obstacleTrigger = true;
+   
     //enemy.eat();
 }
 function loadImages() {
@@ -109,6 +116,7 @@ function loadImages() {
     enemy.flyAnimation = enemy.enemyImage.addAnimation('flyAnimation', "images/fly/Fly1.png","images/fly/Fly5.png");
     enemy.flyAnimation.frameDelay = 7;
     enemy.eatAnimation = enemy.enemyImage.addAnimation('eatAnimation',"images/eat/eat1.png", "images/eat/eat3.png");
+    obstacle.obstacleImage = loadImage("images/asteroid.png");
 }
 function cycleBG(){
     
