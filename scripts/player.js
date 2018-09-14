@@ -2,13 +2,13 @@ class Player {
     
     constructor() {
         
-        this.shipXPosition = 475;
+        this.shipXPosition = 1020;
         this.shipYPosition = 90;
         this.downFlag = 0;
         this.upFlag = 0;
         this.downTarget = 0
         this.upTarget = 0
-      //  this.shipImage = loadImage("images/alien1.png");
+        this.shipImage;
     }
 
     
@@ -35,7 +35,7 @@ class Player {
                     this.downTarget = this.shipYPosition + 90; // sets Y position location
                     if(this.shipYPosition < this.downTarget){
                         this.downFlag = 1;
-                        console.log(player.shipYPosition);
+                       
                         
                         enemy.eat();
                                         }}}}
@@ -54,8 +54,10 @@ class Player {
     
     
     update(){
-        
-        image(this.shipImage,this.shipXPosition, mouseY);
+        //220 - 1020
+        this.shipImage.position.x = this.shipXPosition;
+        this.shipImage.position.y = mouseY;
+      
         
     }
 }

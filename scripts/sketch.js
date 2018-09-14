@@ -102,21 +102,23 @@ function draw() {
     player.update();
     player.shipControl();
     enemy.fly();
-   obstacle.travel();
-   image(obstacle.obstacleImage, obstacle.obstacleXPosition, obstacle.obstacleYPosition);
-   obstacle.obstacleTrigger = true;
+    obstacle.travel();
+    
+    obstacle.obstacleTrigger = true;
    
     //enemy.eat();
 }
 function loadImages() {
     
     backdrop = loadImage("images/background1.png")
-    player.shipImage = loadImage("images/alien1.png");
+    player.shipImage = createSprite();
+    player.shipImage.addImage(loadImage("images/alien1.png"));
     enemy.enemyImage = createSprite(enemy.enemyXPosition, enemy.enemyYPosition);
     enemy.flyAnimation = enemy.enemyImage.addAnimation('flyAnimation', "images/fly/Fly1.png","images/fly/Fly5.png");
     enemy.flyAnimation.frameDelay = 7;
     enemy.eatAnimation = enemy.enemyImage.addAnimation('eatAnimation',"images/eat/eat1.png", "images/eat/eat3.png");
-    obstacle.obstacleImage = loadImage("images/asteroid.png");
+    obstacle.obstacleImage = createSprite();
+    obstacle.obstacleImage.addImage(loadImage("images/asteroid.png"));
 }
 function cycleBG(){
     

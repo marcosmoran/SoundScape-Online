@@ -13,12 +13,13 @@ class Obstacle {
     travel() {
         
         
-        if (this.obstacleTrigger === true) {
-            
+        if  (this.obstacleTrigger === true) {
+            this.obstacleImage.position.x = obstacle.obstacleXPosition;
+            this.obstacleImage.position.y = obstacle.obstacleYPosition;
            // image(this.obstacleImage, this.obstacleXPosition, this.obstacleYPosition);
             this.obstacleXPosition -= 1;
-            //collide();
-            console.log(this.obstacleYPosition);
+            this.collide();
+           
            
             if(this.obstacleXPosition < 0){
                 this.obstacleTrigger = false;
@@ -40,7 +41,11 @@ class Obstacle {
     
     collide(){
         
-        
+        if(this.obstacleImage.overlap(player.shipImage)){
+            
+            console.log("hit");
+            player.shipXPosition -=200;
+        }
     }
     
     die(){}
