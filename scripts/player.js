@@ -8,7 +8,10 @@ class Player {
         this.upFlag = 0;
         this.downTarget = 0
         this.upTarget = 0
-        this.shipImage;
+        this.playerDead;
+        this.shipPosition = 4;
+        this.shipImage = createSprite();
+        this.shipImage.addImage(loadImage("images/alien1.png"));
     }
 
     
@@ -37,7 +40,7 @@ class Player {
                         this.downFlag = 1;
                        
                         
-                        enemy.eat();
+                        
                                         }}}}
         
          if(keyWentDown('UP')) {
@@ -55,9 +58,21 @@ class Player {
     
     update(){
         //220 - 1020
+        if(!this.playerDead) {
+        console.log(this.shipPosition);
         this.shipImage.position.x = this.shipXPosition;
         this.shipImage.position.y = mouseY;
-      
+        drawSprites();
+        }
         
     }
+    die() {
+        this.playerDead = true;
+        this.shipImage.position.x = 1020;
+        this.shipImage.position.y = -30;
+        
+        
+    }
+    respawn(){}
+    
 }

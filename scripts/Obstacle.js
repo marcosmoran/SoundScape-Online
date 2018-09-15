@@ -5,8 +5,8 @@ class Obstacle {
         this.obstacleXPosition = 1280;
         this.obstacleYPosition = random(0, 400);
         this.obstacleTrigger;
-        this.obstacleImage;
-        
+        this.obstacleImage = createSprite();
+        this.obstacleImage.addImage(loadImage("images/asteroid.png"));
         
     }
     
@@ -42,9 +42,11 @@ class Obstacle {
     collide(){
         
         if(this.obstacleImage.overlap(player.shipImage)){
-            
+        
             console.log("hit");
-            player.shipXPosition -=200;
+            player.shipXPosition -= 200;
+            player.shipPosition -= 1;
+           
         }
     }
     
