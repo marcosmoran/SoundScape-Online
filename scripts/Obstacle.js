@@ -14,8 +14,8 @@ class Obstacle {
         
         
         if  (this.obstacleTrigger === true) {
-            this.obstacleImage.position.x = obstacle.obstacleXPosition;
-            this.obstacleImage.position.y = obstacle.obstacleYPosition;
+            this.obstacleImage.position.x = this.obstacleXPosition;
+            this.obstacleImage.position.y = this.obstacleYPosition;
            // image(this.obstacleImage, this.obstacleXPosition, this.obstacleYPosition);
             this.obstacleXPosition -= 1;
             this.collide();

@@ -80,19 +80,23 @@ var enemy;
 var backdrop;
 var backdropx = 0;
 var obstacle;
+var obstacleArray = [];
 function preload() {
      
      player = new Player();
      enemy = new Enemy();
-     obstacle = new Obstacle();
+     //obstacle = new Obstacle();
      loadImages();
-    
+    for(var i = 0;  i < 7; i++){
+        
+        obstacleArray[i] = new Obstacle();
+    }
 }
 
 function setup() {
     //768
     createCanvas(1280, 432);
-    //canvas.position(0,0);
+   
    
 }
 
@@ -101,12 +105,14 @@ function draw() {
     cycleBG();
     
     enemy.fly();
-    obstacle.travel();
+    for(var i = 0;  i < 7; i++) {
+    obstacleArray[i].travel();
+            obstacleArray[i].obstacleTrigger = true;
+    }
     player.update();
     //player.shipControl();
-    obstacle.obstacleTrigger = true;
-   
-    //enemy.eat();
+
+ 
 }
 function loadImages() {
     

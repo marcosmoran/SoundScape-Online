@@ -69,7 +69,8 @@ class Player {
     die() {
         this.playerDead = true;
         this.shipImage.position.x = 1020;
-        this.shipImage.position.y = -30;
+        this.shipImage.position.y = 50;
+        this.shipPosition = 5;
         
         
     }
