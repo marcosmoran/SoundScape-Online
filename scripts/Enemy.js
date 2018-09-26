@@ -30,7 +30,7 @@ class Enemy {
         }
         drawSprites();
         
-        console.log(parseInt(this.enemyImage.position.x),parseInt(this.enemyImage.position.y));
+       
     }
     
     eat() {
