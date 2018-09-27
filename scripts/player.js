@@ -3,7 +3,7 @@ class Player {
     constructor() {
         
         this.shipXPosition = 1020;
-        this.shipYPosition = 200;
+        this.shipYPosition;
         this.downFlag = 0;
         this.upFlag = 0;
         this.downTarget = 0
@@ -13,60 +13,19 @@ class Player {
         this.shipPosition = 4;
         this.shipImage = createSprite();
         this.shipImage.addImage(loadImage("images/alien1.png"));
+        this.shipImage.depth = 1;
         this.flickerCounter = 0;
     }
 
     
-    shipControl(){
-         
-        if (this.downFlag == 1) {
-            if (this.shipYPosition == this.downTarget){
-                this.downFlag = 0;
-                }
-        else {
-            this.shipYPosition += 10; }}
-        
-        if (this.upFlag == 1) {
-            if (this.shipYPosition == this.upTarget){
-                this.upFlag = 0;
-                }
-        else {
-            this.shipYPosition -= 10; }}
-        
-        if(keyWentDown('DOWN')) {
-            
-            if(this.shipYPosition < 350) {
-                if ( this.downFlag == 0 && this.upFlag == 0){
-                    this.downTarget = this.shipYPosition + 90; // sets Y position location
-                    if(this.shipYPosition < this.downTarget){
-                        this.downFlag = 1;
-                       
-                        
-                        
-                                        }}}}
-        
-         if(keyWentDown('UP')) {
-           
-            if(this.shipYPosition > 50) {
-                if ( this.downFlag == 0 && this.upFlag == 0){
-                    this.upTarget = this.shipYPosition - 90; // sets Y position location
-                    if(this.shipYPosition > this.upTarget){
-                        this.upFlag = 1;
-                                        }}}}
-        
-        
-       }
-    
     
     update(){
         //220 - 1020
-        if(!this.playerDead || !this.playerRespawning) {
-            
-        console.log(this.shipPosition);
-        this.shipImage.position.x = this.shipXPosition;
-        this.shipImage.position.y = mouseY;
-        this.shipImage.visible = true;
-       
+        if(!this.playerDead || !this.playerRespawning || !enemy.eating) {
+            this.shipImage.position.x = this.shipXPosition;
+            this.shipImage.position.y = mouseY;
+            this.shipImage.visible = true;
+
         }
         if(this.playerRespawning){
             this.respawn();

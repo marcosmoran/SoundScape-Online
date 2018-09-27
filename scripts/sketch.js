@@ -85,9 +85,8 @@ function preload() {
      
      player = new Player();
      enemy = new Enemy();
-     //obstacle = new Obstacle();
      loadImages();
-    for(var i = 0;  i < 7; i++){
+    for(var i = 0;  i < 3; i++){
         
         obstacleArray[i] = new Obstacle();
     }
@@ -103,14 +102,14 @@ function setup() {
 function draw() {
 
     cycleBG();
-    
+   
     enemy.fly();
     for(var i = 0;  i < 3; i++) {
     obstacleArray[i].travel();
             obstacleArray[i].obstacleTrigger = true;
     }
     player.update();
-    //player.shipControl();
+   
 
  
 }

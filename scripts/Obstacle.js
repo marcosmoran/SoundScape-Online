@@ -7,6 +7,7 @@ class Obstacle {
         this.obstacleTrigger;
         this.obstacleImage = createSprite();
         this.obstacleImage.addImage(loadImage("images/asteroid.png"));
+        this.obstacleImage.depth = 3;
         
     }
     

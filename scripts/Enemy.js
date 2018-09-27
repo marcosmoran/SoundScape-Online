@@ -3,8 +3,9 @@ class Enemy {
     constructor(){
         
         this.enemyXPosition = 50;
-        this.enemyYPosition = 100;
+        this.enemyYPosition = 150;
         this.enemyImage = createSprite(this.enemyXPosition, this.enemyYPosition);
+        this.enemyImage.depth = 0;
         this.flyAnimation = this.enemyImage.addAnimation('flyAnimation', "images/fly/Fly1.png","images/fly/Fly5.png");
         this.flyAnimation.frameDelay = 7;
         this.eatAnimation = this.enemyImage.addAnimation('eatAnimation',"images/eat/eat1.png", "images/eat/eat3.png");
@@ -20,6 +21,8 @@ class Enemy {
         
         if(player.shipPosition == 0) {
             this.eating = true;
+            player.shipYPosition =  player.shipImage.position.y ;
+            console.log("enemy",this.enemyImage.position.y, "player",player.shipYPosition);
             
         }
         if (this.eating){
@@ -35,22 +38,22 @@ class Enemy {
     
     eat() {
         this.enemyImage.changeAnimation('eatAnimation');
-      //  this.enemyImage.attractionPoint(1, parseInt(player.shipXPosition), parseInt(player.shipYPosition));
        
          if(parseInt(this.enemyImage.position.x) != parseInt(player.shipXPosition)) {
-            this.enemyImage.position.x +=2;
-               
+            this.enemyImage.position.x +=5;
+             //  console.log(this.enemyImage.position.y);
+           
                
         }
         
-        if(parseInt(this.enemyImage.position.y) != parseInt(player.shipYPosition)) {
+        if(parseInt(this.enemyImage.position.y + 20) != parseInt(player.shipYPosition)) {
             
-            if(parseInt(player.shipYPosition) < parseInt(this.enemyImage.position.y)){
-            this.enemyImage.position.y -=2;
+            if(parseInt(this.enemyImage.position.y + 20) < parseInt(player.shipYPosition)){
+            this.enemyImage.position.y +=5;
             }
             
-            if(parseInt(player.shipYPosition) > parseInt(this.enemyImage.position.y)){
-            this.enemyImage.position.y +=2;
+            if(parseInt(this.enemyImage.position.y+ 20) > parseInt(player.shipYPosition)){
+            this.enemyImage.position.y -=5;
             }
                
         }
@@ -65,18 +68,29 @@ class Enemy {
             
             
         }
+        
+    player.shipImage.position.y = player.shipYPosition;
+    player.shipImage.position.x = player.shipXPosition;
     }
     
     returnFly() {
         
        
         if(parseInt(this.enemyImage.position.x) != this.enemyXPosition) {
-            this.enemyImage.position.x -=2;
+            this.enemyImage.position.x -=5;
         }
         if(this.enemyImage.position.x == this.enemyXPosition){
             
             this.returnToFly = false;
         }
+        
+         if(parseInt(this.enemyImage.position.y) < parseInt(this.enemyYPosition)){
+            this.enemyImage.position.y +=5;
+            }
+            
+            if(parseInt(this.enemyImage.position.y) > parseInt(this.enemyYPosition)){
+            this.enemyImage.position.y -=5;
+            }
         
     }
     // when ship is in position 0, monster travels to its Y position, bites and explosion
