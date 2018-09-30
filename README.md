@@ -1,7 +1,7 @@
 <h1> SoundScape Online </h1>
 <h3> The Online Survival Game That Reacts To Your Music </h2>
 
-<p> Built with Javascript library p5.js, SoundScape analyses your song and generates meteors and stars to the beat of your music </p>
+<p> Built with Javascript library p5.js, SoundScape analyses your song and generates meteors and stars to the beat of your music. </p>
 
 <h2> HOW TO PLAY </h2>
 <ul>
@@ -13,4 +13,4 @@
 
 </ul>
 
-<p> Not all features currently available <p>
+<p> Not all features currently available. <p>
