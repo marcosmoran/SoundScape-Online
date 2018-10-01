@@ -12,6 +12,7 @@ function preload() {
      
      player = new Player();
      enemy = new Enemy();
+     powerup = new Powerup();
      loadImages();
     for(var i = 0;  i < 3; i++){
         
@@ -58,6 +59,12 @@ function draw() {
         coinCounter = 0;
         currentCoin++;
          }
+    
+    //powerup
+    powerup.update();
+    if(keyIsPressed === true) {
+        powerup.select = true;
+    }
     
     for(var i = 0; i < coinArray.length; i++) { 
         
