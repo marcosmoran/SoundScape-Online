@@ -22,7 +22,7 @@ class Enemy {
         if(player.shipPosition == 0) {
             this.eating = true;
             player.shipYPosition =  player.shipImage.position.y ;
-            console.log("enemy",this.enemyImage.position.y, "player",player.shipYPosition);
+            player.immunity = true;
             
         }
         if (this.eating){

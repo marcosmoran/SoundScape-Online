@@ -4,10 +4,6 @@ class Player {
         
         this.shipXPosition = 1020;
         this.shipYPosition;
-        this.downFlag = 0;
-        this.upFlag = 0;
-        this.downTarget = 0
-        this.upTarget = 0
         this.playerDead;
         this.playerRespawning;
         this.shipPosition = 4;
@@ -15,6 +11,8 @@ class Player {
         this.shipImage.addImage(loadImage("images/alien1.png"));
         this.shipImage.depth = 1;
         this.flickerCounter = 0;
+        this.immunity = false;
+        this.coinsCollected = 0;
     }
 
     
@@ -37,24 +35,28 @@ class Player {
         this.playerDead = true;
         this.shipImage.position.x = 1020;
         this.shipXPosition = 1020;
-        this.shipImage.position.y = 0;
+        this.shipImage.position.y = -20;
         this.shipPosition = 4;
         this.playerRespawning = true;
+        
+        console.log("ded");
         
     }
     respawn(){
         if (this.shipImage.position.y < 200) {
             this.shipImage.position.y++;
-            this.shipImage.position.y++;
+            
             console.log("respawning");
         }
         else {
              this.playerRespawning = false;
+             this.immunity = false;
+            this.playerDead = false;
         }
         
     }
     
-    immunity(){}
+   
     
     flicker(){
         this.flickerCounter++;
