@@ -8,6 +8,7 @@ var coinArray = [];
 var coinRate = 50;
 var coinCounter = 0;
 var currentCoin = 0;
+var powerCounter = 0;
 function preload() {
      
      player = new Player();
@@ -59,18 +60,22 @@ function draw() {
         coinCounter = 0;
         currentCoin++;
          }
-    
-    //powerup
-    powerup.update();
-    if(keyIsPressed === true) {
-        powerup.select = true;
-    }
-    
+   
     for(var i = 0; i < coinArray.length; i++) { 
         
         coinArray[i].update();
         
     }
+    
+    //powerup
+    powerCounter++;
+    powerup.update();
+    if(powerCounter === 400) {
+        powerup.select = true;
+        powerCounter = 0;
+    }
+    
+    
     
    
 

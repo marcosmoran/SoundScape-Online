@@ -8,6 +8,8 @@ class Powerup {
         this.powerSprite.addImage('luck', loadImage("images/powerups/luck.png"));
         this.powerSprite.addImage('star', loadImage("images/powerups/star.png"));
         this.powerSprite.addImage('shield', loadImage("images/powerups/shield.png"));
+        this.powerSprite.depth = 4;
+        this.powerSprite.scale = 0.25;
         this.boostFlag = false;
         this.luckFlag = false;
         this.starFlag = false;
@@ -16,15 +18,17 @@ class Powerup {
         this.activated = false;
         this.select = false;
         this.seed;
+        this.currentPosition;
     }
     
     update(){
         
-        if(this.select === true){
-            console.log("select");
+        if(this.select === true) {
+            this.select = false;
             this.selector();
             this.changeSprite();
             this.trigger = true;
+            
         }
         
         if(this.trigger){
@@ -47,7 +51,7 @@ class Powerup {
             this.shield();
         }
         
-        
+         drawSprites();
         
     }
     
@@ -56,78 +60,97 @@ class Powerup {
             this.powerSprite.position.y = this.powerYPosition;
             this.powerXPosition -= 3;
             this.collide();
-            drawSprites();
+            
         
+        if(this.powerSprite.position.x < 0){
+            this.reInitialize();
+            
+        }
+       
     }
     
     selector(){
         this.seed = random(0,9);
-        switch (player.shipPosition) {
+        this.currentPosition = player.shipPosition;
+        switch(this.currentPosition) {
                 
-            
             case 1:
                 if(this.seed < 6) {
                     this.boostFlag = true;
+                    break
                 }
                 if (this.seed > 6) {
                     this.starFlag = true;
+                    break;
                 }
-                break;
+                
             
             case 2:
                    if(this.seed < 4) {
                     this.boostFlag = true;
+                       break;
                 }
-                if (this.seed > 4 || this.seed < 8) {
+                if (this.seed > 4 && this.seed < 8) {
                     this.starFlag = true;
+                    break;
                 }
                 
                 if (this.seed > 8) {
                     this.shieldFlag = true;
+                    break;
                 }
-                break;
+                
                 
                 
            case 3:
                    if(this.seed < 2) {
                     this.boostFlag = true;
+                    break;
                 }
-                if (this.seed > 2 || this.seed < 7) {
+                if (this.seed > 2 && this.seed < 7) {
                     this.starFlag = true;
+                    break;
                 }
                 
                 if (this.seed > 7) {
                     this.shieldFlag = true;
+                    break;
                 }
-                break;
+                
                 
                 
             case 4:
-                     if(this.seed < 6) {
+                if(this.seed < 6) {
                     this.shieldFlag = true;
+                    break;
                 }
                 if (this.seed > 6) {
                     this.luckFlag = true;
+                    break;
                 }
-                break;
+             
                 
         }
-        this.select = false;
+        
     }
     
     changeSprite() {
         
         if(this.boostFlag) {
             this.powerSprite.changeImage('boost');
+            console.log("BOOST");
         }
           if(this.luckFlag) {
             this.powerSprite.changeImage('luck');
+               console.log("LUCK");
         }
           if(this.shieldFlag) {
             this.powerSprite.changeImage('shield');
+               console.log("SHIELD");
         }
-          if(this.boostFlag) {
+          if(this.starFlag) {
             this.powerSprite.changeImage('star');
+               console.log("STAR");
         }
         
         
@@ -135,34 +158,46 @@ class Powerup {
     collide(){
         
         if(this.powerSprite.overlap(player.shipImage)){
-         
+            
             this.activated = true;
             this.reInitialize();
             
-            
-        
-    }}
+             }}
     
     
     
     reInitialize() {
         
-        this.powerXPosition = width + 20;
+        this.powerXPosition = 1500;
         this.powerYPosition = random(50, 400);
+        this.powerSprite.position.x = this.powerXPosition;
+        this.powerSprite.position.y = this.powerYPosition;
         this.trigger = false;
     }
     
     boost(){
-        console.log("boost");
+        if (this.activated) {
+       
+        this.boostFlag = false;
+        }
     }
     luck(){
-        console.log("luck");
+         if (this.activated) {
+        
+        this.luckFlag = false;
+         }
     }
     star(){
-        console.log("star");
+         if (this.activated) {
+        
+        this.starFlag = false;
+         }
     }
     shield(){
-        console.log("shield");
+         if (this.activated) {
+       
+        this.shieldFlag = false;
+         }
     }
     
     
