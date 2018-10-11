@@ -20,8 +20,9 @@ class Enemy {
     fly() {
         
         if(player.shipPosition == 0) {
+            player.disablePlayerControls = true;
             this.eating = true;
-            player.shipYPosition =  player.shipImage.position.y ;
+            player.shipYPosition =  player.shipImage.position.y;
             player.immunity = true;
             
         }
@@ -60,8 +61,8 @@ class Enemy {
         
         if(this.enemyImage.overlapPoint(player.shipXPosition, player.shipYPosition)){
           
-           this.eating = false;
-            player.die();
+            this.eating = false;
+            player.playerDead = true;
             this.returnToFly = true;
             this.enemyImage.changeAnimation('flyAnimation');
            
