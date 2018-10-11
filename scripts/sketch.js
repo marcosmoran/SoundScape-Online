@@ -70,7 +70,7 @@ function draw() {
     //powerup
     powerCounter++;
     powerup.update();
-    if(powerCounter === 400) {
+    if(powerCounter === 1000) {
         powerup.select = true;
         powerCounter = 0;
     }

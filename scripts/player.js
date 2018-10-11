@@ -22,12 +22,13 @@ class Player {
         if(!this.playerDead || !this.playerRespawning || !enemy.eating) {
             this.shipImage.position.x = this.shipXPosition;
             this.shipImage.position.y = mouseY;
-            this.shipImage.visible = true;
+           
 
         }
         if(this.playerRespawning){
-            this.respawn();
+           
             this.flicker();
+            this.respawn();
         }
          drawSprites();
     }
@@ -49,9 +50,11 @@ class Player {
             console.log("respawning");
         }
         else {
-             this.playerRespawning = false;
-             this.immunity = false;
+             
+            this.immunity = false;
             this.playerDead = false;
+            this.shipImage.visible = true;
+            this.playerRespawning = false;
         }
         
     }

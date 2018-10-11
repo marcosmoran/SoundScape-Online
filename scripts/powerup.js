@@ -1,7 +1,7 @@
 class Powerup {
     
     constructor() {
-        this.powerXPosition =1500;
+        this.powerXPosition = 1500;
         this.powerYPosition = random(50, 400);
         this.powerSprite = createSprite(this.powerXPosition, this.powerYPosition);
         this.powerSprite.addImage('boost', loadImage("images/powerups/boost.png"));
@@ -16,9 +16,14 @@ class Powerup {
         this.shieldFlag = false;
         this.trigger = false;
         this.activated = false;
+        this.active = false;
         this.select = false;
         this.seed;
+        this.currentMillis;
+        this.startTime;
+        this.endTime = 5000;
         this.currentPosition;
+        this.boostX;
     }
     
     update(){
@@ -50,7 +55,7 @@ class Powerup {
         if(this.shieldFlag) {
             this.shield();
         }
-        
+        this.currentMillis = millis();
          drawSprites();
         
     }
@@ -64,6 +69,13 @@ class Powerup {
         
         if(this.powerSprite.position.x < 0){
             this.reInitialize();
+            this.boostFlag = false;
+            this.luckFlag = false;
+            this.starFlag = false;
+            this.shieldFlag = false;
+            
+            
+            
             
         }
        
@@ -161,8 +173,7 @@ class Powerup {
             
             this.activated = true;
             this.reInitialize();
-            
-             }}
+            }}
     
     
     
@@ -176,30 +187,68 @@ class Powerup {
     }
     
     boost(){
-        if (this.activated) {
-       
-        this.boostFlag = false;
+        
+        if(this.activated) {
+        this.boostX = player.shipXPosition + 200;
+        this.active = true;
+        this.activated = false;
+        
+        player.immunity = true;
+        }
+        
+        if(this.active){
+            if(player.shipXPosition < this.boostX){
+            player.shipXPosition += 2;
+            }
+        if(player.shipXPosition == this.boostX) {
+            player.shipPosition++;
+            player.immunity = false;
+            this.active = false;
+            this.boostFlag = false;
+        }
         }
     }
     luck(){
          if (this.activated) {
-        
-        this.luckFlag = false;
+        this.startTime = millis();
+        this.activated = false;
+        this.active = true;
+             
          }
-    }
+        
+        if (this.active){
+            coinCounter = 0;
+            coinRate = 20;
+            
+        if(this.currentMillis - this.startTime > this.endTime) {
+            this.active = false;
+            coinRate = 50;
+            this.luckFlag = false;
+        }
+    }}
     star(){
-         if (this.activated) {
         
-        this.starFlag = false;
+         if (this.activated) {
+             this.startTime = millis();
+             this.activated = false;
+             this.active = true;
          }
-    }
+        
+         if(this.active) {
+            
+            player.immunity = true;
+           
+            if(this.currentMillis - this.startTime > this.endTime) {
+                 this.active = false;
+                 player.immunity = false;
+                this.starFlag = false;
+                
+             }}}
+    
     shield(){
          if (this.activated) {
-       
+       this.activated = false;
         this.shieldFlag = false;
          }
     }
-    
-    
-    
-}
+    }
