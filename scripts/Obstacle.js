@@ -40,6 +40,9 @@ class Obstacle {
     }
     
     collide(){
+         if(this.obstacleImage.overlap(powerup.shieldOnSprite)){
+                powerup.shieldOff = true;
+            }
         if(!player.immunity){
         if(this.obstacleImage.overlap(player.shipImage)){
         
@@ -47,6 +50,7 @@ class Obstacle {
             player.shipPosition -= 1;
             
         }
+           
     }}
     
     die(){}

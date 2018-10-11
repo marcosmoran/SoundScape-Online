@@ -8,6 +8,10 @@ class Powerup {
         this.powerSprite.addImage('luck', loadImage("images/powerups/luck.png"));
         this.powerSprite.addImage('star', loadImage("images/powerups/star.png"));
         this.powerSprite.addImage('shield', loadImage("images/powerups/shield.png"));
+        this.shieldOnSprite = createSprite();
+        this.shieldOnSprite.addImage('shield', loadImage("images/powerups/shieldOn.png"));
+        this.shieldOnSprite.visible = false;
+        this.shieldOff = true;
         this.powerSprite.depth = 4;
         this.powerSprite.scale = 0.25;
         this.boostFlag = false;
@@ -21,7 +25,7 @@ class Powerup {
         this.seed;
         this.currentMillis;
         this.startTime;
-        this.endTime = 5000;
+        this.endTime = 10000;
         this.currentPosition;
         this.boostX;
     }
@@ -198,7 +202,7 @@ class Powerup {
         
         if(this.active){
             if(player.shipXPosition < this.boostX){
-            player.shipXPosition += 2;
+            player.shipXPosition += 5;
             }
         if(player.shipXPosition == this.boostX) {
             player.shipPosition++;
@@ -210,6 +214,7 @@ class Powerup {
     }
     luck(){
          if (this.activated) {
+              coinCounter = 0;
         this.startTime = millis();
         this.activated = false;
         this.active = true;
@@ -217,8 +222,8 @@ class Powerup {
          }
         
         if (this.active){
-            coinCounter = 0;
-            coinRate = 20;
+           
+            coinRate = 10;
             
         if(this.currentMillis - this.startTime > this.endTime) {
             this.active = false;
@@ -236,8 +241,8 @@ class Powerup {
         
          if(this.active) {
             
-            player.immunity = true;
            
+            player.immunity = true;
             if(this.currentMillis - this.startTime > this.endTime) {
                  this.active = false;
                  player.immunity = false;
@@ -247,8 +252,29 @@ class Powerup {
     
     shield(){
          if (this.activated) {
-       this.activated = false;
-        this.shieldFlag = false;
+               this.shieldOnSprite.visible = true;
+               this.shieldOnSprite.position.x = player.shipImage.position.x;
+               this.shieldOnSprite.position.y = player.shipImage.position.y;
+               player.immunity = true;  
+              this.shieldOff = false;
+               this.activated = false;
+               this.active = true; 
+             drawSprites();
          }
+        if (this.active) {
+            
+             this.shieldOnSprite.position.x = player.shipImage.position.x;
+            this.shieldOnSprite.position.y = player.shipImage.position.y;
+             drawSprites();
+            if(this.shieldOff) {
+                this.shieldOnSprite.visible = false;
+                player.immunity = false;
+                this.active = false;
+                this.shieldFlag = false;
+                
+            }
+            
+            
+        }
     }
     }

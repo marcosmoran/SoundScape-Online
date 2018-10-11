@@ -68,8 +68,11 @@ function draw() {
     }
     
     //powerup
-    powerCounter++;
+   
     powerup.update();
+    if(!powerup.active){
+         powerCounter++;
+    }
     if(powerCounter === 1000) {
         powerup.select = true;
         powerCounter = 0;

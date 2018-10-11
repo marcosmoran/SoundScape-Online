@@ -3,7 +3,6 @@ class Player {
     constructor() {
         
         this.shipXPosition = 1020;
-        this.shipYPosition;
         this.playerDead;
         this.playerRespawning;
         this.shipPosition = 4;
@@ -19,33 +18,31 @@ class Player {
     
     update(){
         //220 - 1020
-        if(!this.playerDead || !this.playerRespawning || !enemy.eating) {
+        if(!this.playerDead || !this.playerRespawning || !enemy.eating || this.shipPosition != 0) {
             this.shipImage.position.x = this.shipXPosition;
             this.shipImage.position.y = mouseY;
-           
-
-        }
+           }
+        
         if(this.playerRespawning){
            
             this.flicker();
             this.respawn();
         }
-         drawSprites();
+        
+        drawSprites();
     }
     die() {
         this.playerDead = true;
+        this.shipImage.position.y = 0;
         this.shipImage.position.x = 1020;
         this.shipXPosition = 1020;
-        this.shipImage.position.y = -20;
         this.shipPosition = 4;
-        this.playerRespawning = true;
-        
-        console.log("ded");
-        
+        this.playerRespawning = true; 
     }
     respawn(){
-        if (this.shipImage.position.y < 200) {
-            this.shipImage.position.y++;
+        
+        if(this.shipImage.position.y < 200) {
+            this.shipImage.position.y +=2;
             
             console.log("respawning");
         }
