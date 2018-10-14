@@ -15,4 +15,4 @@
 
 <p> Not all features currently available. <p>
 
-<h1 href = https://marcosmoran.github.io/SoundScape-Online/> PLAY! </h1>
+<h1><a href = "https://marcosmoran.github.io/SoundScape-Online"/> PLAY!</a></h1>
