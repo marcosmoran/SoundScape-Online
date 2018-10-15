@@ -13,6 +13,8 @@
 
 </ul>
 
-<p> Not all features currently available. <p>
+<p> Not all features currently available.
+You can watch a demo of the fully operational Java Version <a href="https://vimeo.com/267766850">here.</a>
+<p>
 
 <h1><a href = "https://marcosmoran.github.io/SoundScape-Online"/> PLAY!</a></h1>
