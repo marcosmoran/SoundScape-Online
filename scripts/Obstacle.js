@@ -2,43 +2,39 @@ class Obstacle {
     
     constructor() {
         
-        this.obstacleXPosition = 1280;
-        this.obstacleYPosition = random(0, 200);
-        this.obstacleTrigger;
+       this.obstacleTrigger;
         this.obstacleImage = createSprite();
         this.obstacleImage.addImage(loadImage("images/asteroid.png"));
+        this.obstacleImage.position.x  = width + 20;
+        this.obstacleImage.position.y = random(0, 200);
         this.obstacleImage.depth = 3;
-        
+        this.obstacleImage.visible = false;
     }
     
     travel() {
         
         
         if  (this.obstacleTrigger === true) {
-            this.obstacleImage.position.x = this.obstacleXPosition;
-            this.obstacleImage.position.y = this.obstacleYPosition;
-            this.obstacleXPosition -= 5;
+            this.obstacleImage.visible = true;
+            this.obstacleImage.position.x  -= 5;
             this.collide();
            
            
-            if(this.obstacleXPosition < 0){
-                this.obstacleTrigger = false;
-                 this.obstacleXPosition = 1280;
-        this.obstacleYPosition =  432;
+            if(this.obstacleImage.position.x < 0){
+               this.reInitialize();
             }
-    } else {
-        
-        this.obstacleXPosition = 1280;
-        this.obstacleYPosition = random(0, 400);
-    
-        
+    } 
+        drawSprites();
     }
     
-    
-    
-    
+     reInitialize() {
+         
+         this.obstacleImage.position.x  = width + 20;
+         this.obstacleImage.position.y = random(0, 200);
+         this.obstacleTrigger = false;
+         this.obstacleImage.visible = false;
+        
     }
-    
     collide(){
          if(this.obstacleImage.overlap(powerup.shieldOnSprite)){
                 powerup.shieldOff = true;

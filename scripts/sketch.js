@@ -11,13 +11,26 @@ var coinCounter = 0;
 var currentCoin = 0;
 var powerCounter = 0;
 var mid, lowMid, highMid;
+var fft, peakDetect;
+var scoreGlobal, oldScoreGlobal;
+var currentObstacle = 0;
+var targetObstacle = 2;
 function preload() {
      sound = loadSound("home.mp3");
+}
+   
+    
+
+function setup() {
+    //768
+    createCanvas(1280, 432);
+    
+    fft = new p5.FFT();
      player = new Player();
      enemy = new Enemy();
      powerup = new Powerup();
      loadImages();
-    for(var i = 0;  i < 3; i++){
+    for(var i = 0;  i < 12; i++){
         
         obstacleArray[i] = new Obstacle();
     }
@@ -31,44 +44,36 @@ function preload() {
         
         starArray[i] = new Stars();
     }
-    
-}
-
-function setup() {
-    //768
-    createCanvas(1280, 432);
-    fft = new p5.FFT();
-    
+    peakDetect = new p5.PeakDetect(4000, 12000,0.2)
     sound.play()
    
 }
 
 function draw() {
-    console.log(width);
+    
 
     cycleBG();
     
     analyzeSound();
+    coinSpawner()
     starSpawner();
     enemy.fly();
-    for(var i = 0;  i < 3; i++) {
-    if (i != 0){
-    obstacleArray[i].obstacleYPosition =  obstacleArray[i - 1].obstacleYPosition + 150;
+  
+    for(var i = 0; i < obstacleArray.length; i++){
+         obstacleArray[i].travel();
     }
-    obstacleArray[i].travel();
-    obstacleArray[i].obstacleTrigger = true;
-    }
-    player.update();
-    
-    coinSpawner()
  
-   
+    
+    
+    player.update();
     powerup.update();
     if(!powerup.active){
          powerCounter++;
     }
     if(powerCounter === 1000) {
+        
         powerup.select = true;
+         obstacleSpawner();
         powerCounter = 0;
     }
  
@@ -94,7 +99,7 @@ function draw() {
 }
 function loadImages() {
     
-    backdrop = loadImage("images/background1.png");
+    backdrop = loadImage("images/background2.png");
 
 }
 function cycleBG(){
@@ -125,19 +130,46 @@ function coinSpawner(){
 function analyzeSound(){
    fft.analyze();
    fft.smooth();
+   peakDetect.update(fft);
+  
    mid = fft.getEnergy("mid");
    lowMid = fft.getEnergy("lowMid");
    highMid = fft.getEnergy("highMid");
-   console.log(lowMid);
+  scoreGlobal = (lowMid * 0.66) + (0.8 * mid) + highMid;
+ // console.log(scoreGlobal);
+  
     
 }
 
 function starSpawner(){
       //white stars
- var size = map(lowMid, 180, 230, 0, 7);   
+ var size = map(scoreGlobal, 250, 450, 0, 7);   
   for(var i = 0; i < starArray.length; i++) {
       
     starArray[i].show(size);
 
   }
+}
+
+function obstacleSpawner() {
+    console.log('spawn');
+     if(currentObstacle = 11){
+        currentObstacle = 0;
+    }
+    
+    while(currentObstacle < targetObstacle) {
+//    
+//    if (i > currentObstacle) {
+//    obstacleArray[i].obstacleYPosition = obstacleArray[i - 1].obstacleYPosition + 150;
+//    }
+   
+    obstacleArray[currentObstacle].obstacleTrigger = true;
+    currentObstacle++;
+    }
+    targetObstacle = currentObstacle + 2;
+
+    
+    
+    
+    
 }

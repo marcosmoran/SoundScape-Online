@@ -43,13 +43,10 @@ class Player {
         this.shipXPosition = 1020;
         this.shipPosition = 4;
         this.playerRespawning = true; 
-        console.log(this.shipImage.position.y);
-        console.log(this.disablePlayerControls);
+      
     }
     respawn(){
-        console.log("respawning");
-        console.log(this.shipImage.position.y);
-        console.log(this.disablePlayerControls);
+       
         if(this.shipImage.position.y < 200) {
             this.shipImage.position.y++;
             }
