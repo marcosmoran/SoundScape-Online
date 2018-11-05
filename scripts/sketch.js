@@ -15,8 +15,15 @@ var fft, peakDetect;
 var scoreGlobal, oldScoreGlobal;
 var currentObstacle = 0;
 var targetObstacle = 2;
+var gameState = 0.5;
+var obstacleCounter = 0;
+var songLength;
+var highestValue, lowestValue;
+var globalValue = [];
+var globalCount = 0;
 function preload() {
      sound = loadSound("home.mp3");
+    songLength = sound.duration();
 }
    
     
@@ -30,7 +37,8 @@ function setup() {
      enemy = new Enemy();
      powerup = new Powerup();
      loadImages();
-    for(var i = 0;  i < 12; i++){
+    
+    for(var i = 0;  i < 15; i++){
         
         obstacleArray[i] = new Obstacle();
     }
@@ -44,38 +52,77 @@ function setup() {
         
         starArray[i] = new Stars();
     }
-    peakDetect = new p5.PeakDetect(4000, 12000,0.2)
+    
+    if(gameState = 0.5) {
+    masterVolume(0);
+    sound.jump(songLength/2)
     sound.play()
+    
+    }
+    
+    if (gameState = 1){
    
+    masterVolume(1);
+    sound.playMode('restart');
+    sound.play()
+    }
 }
 
 function draw() {
     
+    console.log(gameState);
+    
+    if(gameState = 0.5) {
+        
+        preAnalysis();
+    }
+   
+//
+//   if(gameState = 1) {
+//        mainGame();
+//    }
+ 
+}
+
+function preAnalysis() {
+    analyzeSound();
+    console.log(globalCount);
+    
+    if(globalCount < 300) {
+        
+       if(scoreGlobal > highestValue) {
+            
+            highestValue = scoreGlobal;
+        }
+         
+        if(scoreGlobal > lowestValue) {
+            
+            lowestValue = scoreGlobal;
+        }
+        globalCount++;
+    }  else {
+        sound.stop();
+        gameState = 1;
+        setup();
+        
+    }
+}
+ function mainGame(){
 
     cycleBG();
-    
     analyzeSound();
     coinSpawner()
     starSpawner();
+    powerupSpawner()
+    obstacleUpdater()
     enemy.fly();
-  
-    for(var i = 0; i < obstacleArray.length; i++){
-         obstacleArray[i].travel();
-    }
+   
  
     
     
     player.update();
     powerup.update();
-    if(!powerup.active){
-         powerCounter++;
-    }
-    if(powerCounter === 1000) {
-        
-        powerup.select = true;
-         obstacleSpawner();
-        powerCounter = 0;
-    }
+   
  
    
   var waveform = fft.waveform();
@@ -92,11 +139,9 @@ function draw() {
 //  endShape();
 
     
+    }
 
 
-
- 
-}
 function loadImages() {
     
     backdrop = loadImage("images/background2.png");
@@ -130,8 +175,7 @@ function coinSpawner(){
 function analyzeSound(){
    fft.analyze();
    fft.smooth();
-   peakDetect.update(fft);
-  
+   
    mid = fft.getEnergy("mid");
    lowMid = fft.getEnergy("lowMid");
    highMid = fft.getEnergy("highMid");
@@ -143,33 +187,57 @@ function analyzeSound(){
 
 function starSpawner(){
       //white stars
- var size = map(scoreGlobal, 250, 450, 0, 7);   
+ var size = map(scoreGlobal, lowestValue, highestValue, 0, 7);   
   for(var i = 0; i < starArray.length; i++) {
       
     starArray[i].show(size);
 
   }
 }
-
-function obstacleSpawner() {
-    console.log('spawn');
-     if(currentObstacle = 11){
-        currentObstacle = 0;
+function obstacleUpdater(){
+    obstacleCounter++;
+    for(var i = 0; i < obstacleArray.length; i++){
+         obstacleArray[i].travel();
     }
+    if (obstacleCounter > 60){
+        obstacleCounter = 0;
+        obstacleSpawner();
+    }
+}
+function obstacleSpawner() {
     
-    while(currentObstacle < targetObstacle) {
-//    
+   
+    if(currentObstacle > 10){
+       
+        currentObstacle = 0;
+        targetObstacle = 2;
+    }
+  
+    while(currentObstacle != targetObstacle) {
+    
 //    if (i > currentObstacle) {
 //    obstacleArray[i].obstacleYPosition = obstacleArray[i - 1].obstacleYPosition + 150;
 //    }
-   
+//   
     obstacleArray[currentObstacle].obstacleTrigger = true;
     currentObstacle++;
+ 
     }
+      
+      
     targetObstacle = currentObstacle + 2;
 
     
-    
-    
-    
+}
+
+function powerupSpawner() {
+     if(!powerup.active){
+         powerCounter++;
+    }
+    if(powerCounter === 1000) {
+        
+        powerup.select = true;
+        
+        powerCounter = 0;
+    }
 }
