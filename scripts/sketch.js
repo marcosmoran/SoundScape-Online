@@ -1,5 +1,6 @@
 var player;
 var enemy;
+var sound;
 var backdrop;
 var backdropx = 0;
 var obstacle;
@@ -15,12 +16,21 @@ var fft, peakDetect;
 var scoreGlobal, oldScoreGlobal;
 var currentObstacle = 0;
 var targetObstacle = 2;
-var gameState = 0.5;
+
 var obstacleCounter = 0;
 var songLength;
-var highestValue, lowestValue;
+var highestValue = 0;
+var lowestValue = 100;
 var globalValue = [];
 var globalCount = 0;
+p5.disableFriendlyErrors = true;
+
+
+
+ var gameState = 0;
+
+var button;
+
 function preload() {
      sound = loadSound("home.mp3");
     songLength = sound.duration();
@@ -31,7 +41,7 @@ function preload() {
 function setup() {
     //768
     createCanvas(1280, 432);
-    
+   
     fft = new p5.FFT();
      player = new Player();
      enemy = new Enemy();
@@ -48,62 +58,55 @@ function setup() {
         coinArray[i] = new Coin();
     }
     
-      for(var i = 0;  i < 200; i++){
+      for(var i = 0;  i < 100; i++){
         
         starArray[i] = new Stars();
     }
+     
     
-    if(gameState = 0.5) {
-    masterVolume(0);
-    sound.jump(songLength/2)
-    sound.play()
-    
-    }
-    
-    if (gameState = 1){
+   button = createButton('submit');
+   button.position(width - 20, height - 20);
+   button.mousePressed(playSong);
    
-    masterVolume(1);
-    sound.playMode('restart');
-    sound.play()
-    }
+ 
+   
 }
 
 function draw() {
     
-    console.log(gameState);
+    if(gameState == 0){
+     if(sound.isPlaying()){
+    preAnalysis();
+    };}
     
-    if(gameState = 0.5) {
-        
-        preAnalysis();
+    if (gameState ==1 ) {
+        mainGame();
     }
    
-//
-//   if(gameState = 1) {
-//        mainGame();
-//    }
- 
 }
-
+function playSong(){
+    sound.play();
+}
 function preAnalysis() {
+    console.log("run");
     analyzeSound();
-    console.log(globalCount);
+    //console.log(globalCount);
     
-    if(globalCount < 300) {
+    if(globalCount < 200) {
         
        if(scoreGlobal > highestValue) {
             
             highestValue = scoreGlobal;
         }
          
-        if(scoreGlobal > lowestValue) {
+        if(scoreGlobal < lowestValue) {
             
             lowestValue = scoreGlobal;
         }
         globalCount++;
     }  else {
         sound.stop();
-        gameState = 1;
-        setup();
+    gameState=1;
         
     }
 }
@@ -148,7 +151,7 @@ function loadImages() {
 
 }
 function cycleBG(){
-    
+    background(0);
     image(backdrop, backdropx, 0);
       image(backdrop, backdropx + backdrop.width, 0);
       
@@ -241,3 +244,4 @@ function powerupSpawner() {
         powerCounter = 0;
     }
 }
+
